@@ -20,16 +20,26 @@ namespace Presentacion
         {
             InitializeComponent();
         }
-
         private void frmArticulos_Load(object sender, EventArgs e)
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
-            listaArticulo = negocio.listar();
-            dgvArticulos.DataSource = listaArticulo;
-            dgvArticulos.Columns["Imagen"].Visible = false;
-            cargarImagen(listaArticulo[0].imagen);
+            cargar();
         }
 
+        private void cargar() 
+        {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            try
+            {
+                listaArticulo = negocio.listar();
+                dgvArticulos.DataSource = listaArticulo;
+                dgvArticulos.Columns["Imagen"].Visible = false;
+                cargarImagen(listaArticulo[0].imagen);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
         {
             Articulo seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
@@ -43,9 +53,14 @@ namespace Presentacion
             }
             catch (Exception ex)
             {
-
                 pbxImagen.Load("https://img.freepik.com/premium-vector/photo-icon-picture-icon-image-sign-symbol-vector-illustration_64749-4409.jpg");
             }
+        }
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            frmAltaArticulos alta = new frmAltaArticulos();
+            alta.ShowDialog();
+            cargar();
         }
     }
 }
