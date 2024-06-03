@@ -18,12 +18,13 @@ namespace Presentacion
         public frmAltaArticulos()
         {
             InitializeComponent();
+            Text = "Agregar artículo";
         }
         public frmAltaArticulos(Articulo articulo)
         {
             InitializeComponent();
             this.articulo = articulo;
-            Text = "Modificar Articulo";
+            Text = "Modificar artículo";
         }
         private void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -55,6 +56,7 @@ namespace Presentacion
                 {
                     negocio.Agregar(articulo);
                     MessageBox.Show("Artículo agregado exitosamente!");
+                    Close();
                 }
 
             }

@@ -77,7 +77,6 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
         public void Modificar (Articulo modificar)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -107,7 +106,20 @@ namespace Negocio
             }
 
         }
+        public void Elimnar(int id)     
+        {
+            try
+            {
+                AccesoDatos datos = new AccesoDatos();
+                datos.setearConsulta("DELETE from ARTICULOS where Id = @Id");
+                datos.setearParametro("@Id", id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
 
-
+                throw ex;
+            }        
+        }
     }
 }
