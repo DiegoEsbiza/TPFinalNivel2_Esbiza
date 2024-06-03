@@ -14,9 +14,16 @@ namespace Presentacion
 {
     public partial class frmAltaArticulos : Form
     {
+        private Articulo articulo = null;
         public frmAltaArticulos()
         {
             InitializeComponent();
+        }
+        public frmAltaArticulos(Articulo articulo)
+        {
+            InitializeComponent();
+            this.articulo = articulo;
+            Text = "Modificar Articulo";
         }
         private void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -24,10 +31,12 @@ namespace Presentacion
         }
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            Articulo articulo = new Articulo();
             ArticuloNegocio negocio = new ArticuloNegocio();
             try
             {
+                if (articulo == null)
+                    articulo = new Articulo();
+
                 articulo.codigo = txtCodigo.Text;
                 articulo.nombre = txtNombre.Text;
                 articulo.descripcion = txtDescripcion.Text;
@@ -36,9 +45,18 @@ namespace Presentacion
                 articulo.imagen = txtUrlImagen.Text;
                 articulo.precio = decimal.Parse(txtPrecio.Text);
 
-                negocio.Agregar(articulo);
-                MessageBox.Show("Artículo agregado exitosamente!");
-                Close();
+                if (articulo.id != 0) 
+                { 
+                    negocio.Modificar(articulo);
+                    MessageBox.Show("Artículo modificado exitosamente!");
+                    Close();
+                }
+                else
+                {
+                    negocio.Agregar(articulo);
+                    MessageBox.Show("Artículo agregado exitosamente!");
+                }
+
             }
             catch (Exception ex)
             {
@@ -53,11 +71,26 @@ namespace Presentacion
             try
             {
                 cboMarca.DataSource = marcaNegocio.listar();
+                cboMarca.ValueMember = "Id";
+                cboMarca.DisplayMember = "Descripcion";
                 cboCategoria.DataSource = categoriaNegocio.listar();
+                cboCategoria.ValueMember = "Id";
+                cboCategoria.DisplayMember = "Descripcion";
+
+                if(articulo != null) 
+                {
+                    txtCodigo.Text = articulo.codigo;
+                    txtNombre.Text = articulo.nombre;
+                    txtDescripcion.Text = articulo.descripcion;
+                    txtUrlImagen.Text = articulo.imagen;
+                    cargarImagen(articulo.imagen);
+                    cboMarca.SelectedValue = articulo.marca.Id;
+                    cboCategoria.SelectedValue = articulo.categoria.Id;
+                    txtPrecio.Text = articulo.precio.ToString();
+                }
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.ToString());
             }
         }

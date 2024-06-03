@@ -18,12 +18,13 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT Codigo, Nombre, A.Descripcion, imagenUrl, M.Descripcion Marca, C.Descripcion Categoria, Precio from MARCAS M, ARTICULOS A, CATEGORIAS C where M.Id = A.IdMarca and C.Id = A.IdCategoria");
+                datos.setearConsulta("SELECT A.Id, Codigo, Nombre, A.Descripcion, A.IdMarca, A.IdCategoria, imagenUrl, M.Descripcion Marca, C.Descripcion Categoria, Precio, M.Id, C.Id from MARCAS M, ARTICULOS A, CATEGORIAS C where M.Id = A.IdMarca and C.Id = A.IdCategoria");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read()) 
                 {
                     Articulo aux = new Articulo();
+                    aux.id = (int)datos.Lector["Id"];
                     aux.codigo = (string)datos.Lector["Codigo"];
                     aux.nombre = (string)datos.Lector["Nombre"];
                     aux.descripcion = (string)datos.Lector["Descripcion"];
@@ -32,8 +33,10 @@ namespace Negocio
                         aux.imagen = (string)datos.Lector["ImagenUrl"];             
 
                     aux.marca = new Marca();
+                    aux.marca.Id = (int)datos.Lector["IdMarca"];
                     aux.marca.Descripcion = (string)datos.Lector["Marca"];
                     aux.categoria = new Categoria();
+                    aux.categoria.Id = (int)datos.Lector["IdCategoria"];
                     aux.categoria.Descripcion = (string)datos.Lector["Categoria"];
                     aux.precio = (decimal)datos.Lector["Precio"];
 
@@ -77,6 +80,31 @@ namespace Negocio
 
         public void Modificar (Articulo modificar)
         {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("update ARTICULOS set Codigo = @codigo, Nombre = @nombre, Descripcion = @descripcion, IdMarca = @idMarca, IdCategoria = @idCategoria, imagenUrl = @imagenUrl, Precio = @precio Where Id = @Id ");
+                datos.setearParametro("@codigo", modificar.codigo);
+                datos.setearParametro("@nombre", modificar.nombre);
+                datos.setearParametro("@descripcion", modificar.descripcion);
+                datos.setearParametro("@idMarca", modificar.marca.Id);
+                datos.setearParametro("@idCategoria", modificar.categoria.Id);
+                datos.setearParametro("@imagenUrl", modificar.imagen);
+                datos.setearParametro("@precio", modificar.precio);
+                datos.setearParametro("@Id", modificar.id);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally 
+            { 
+                datos.cerrarConexion();
+            }
 
         }
 

@@ -32,6 +32,7 @@ namespace Presentacion
             {
                 listaArticulo = negocio.listar();
                 dgvArticulos.DataSource = listaArticulo;
+                dgvArticulos.Columns["Id"].Visible = false;
                 dgvArticulos.Columns["Imagen"].Visible = false;
                 cargarImagen(listaArticulo[0].imagen);
             }
@@ -60,6 +61,16 @@ namespace Presentacion
         {
             frmAltaArticulos alta = new frmAltaArticulos();
             alta.ShowDialog();
+            cargar();
+        }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            Articulo seleccionado;
+            seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+
+            frmAltaArticulos modificar = new frmAltaArticulos(seleccionado);
+            modificar.ShowDialog();
             cargar();
         }
     }
