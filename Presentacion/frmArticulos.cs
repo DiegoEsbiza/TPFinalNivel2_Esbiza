@@ -107,11 +107,51 @@ namespace Presentacion
             
         }
 
+        private bool validarFiltro() 
+        {
+            if(cboCampo.SelectedIndex < 0) 
+            {
+                MessageBox.Show("Por favor, seleccione los campos para filtrar.");
+                return true;
+            }
+            if(cboCriterio.SelectedIndex < 0)  
+            {
+                MessageBox.Show("Por favor, seleccione el criterio para filtrar.");
+                return true;
+            }
+            if(cboCampo.SelectedIndex.ToString() == "Precio") 
+            {
+                if (string.IsNullOrEmpty(txtFiltroAvanzado.Text)) 
+                {
+                    MessageBox.Show("Complete el campo para continuar");
+                    return true;
+                }
+                if(!(soloNumeros(txtFiltroAvanzado.Text)))
+                {
+                    MessageBox.Show("Ingrese solo números, por favor");
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool soloNumeros(string cadena) 
+        {
+            foreach(char caracter in cadena) 
+            {
+                if (!(char.IsNumber(caracter)))
+                    return false;
+            }       
+            return true;    
+        }
         private void btnFiltro_Click(object sender, EventArgs e)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
             try
             {
+                if (validarFiltro())
+                    return;
+
                 string campo = cboCampo.SelectedItem.ToString();
                 string criterio = cboCriterio.SelectedItem.ToString();
                 string filtro = txtFiltroAvanzado.Text;
@@ -124,9 +164,7 @@ namespace Presentacion
                 MessageBox.Show(ex.ToString());
             }
         }
-        private void txtFiltro_KeyPress(object sender, KeyPressEventArgs e)
-        {
-        }
+        
         private void txtFiltro_TextChanged(object sender, EventArgs e)
         {
             List<Articulo> listaFiltrada;
