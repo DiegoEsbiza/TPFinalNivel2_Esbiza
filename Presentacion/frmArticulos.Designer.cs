@@ -105,7 +105,7 @@
             this.txtFiltro.Name = "txtFiltro";
             this.txtFiltro.Size = new System.Drawing.Size(202, 20);
             this.txtFiltro.TabIndex = 6;
-            this.txtFiltro.TextChanged += new System.EventHandler(this.txtFiltro_TextChanged);           
+            this.txtFiltro.TextChanged += new System.EventHandler(this.txtFiltro_TextChanged);
             // 
             // btnFiltro
             // 

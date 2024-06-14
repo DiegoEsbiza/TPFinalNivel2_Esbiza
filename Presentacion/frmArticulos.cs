@@ -11,6 +11,7 @@ using Negocio;
 using Dominio;
 
 
+
 namespace Presentacion
 {
     public partial class frmArticulos : Form
@@ -75,38 +76,41 @@ namespace Presentacion
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
-        {
-            Articulo seleccionado;
-            seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+        {            
+            if(dgvArticulos.CurrentRow != null)
+            {
+                Articulo seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
 
-            frmAltaArticulos modificar = new frmAltaArticulos(seleccionado);
-            modificar.ShowDialog();
-            cargar();
+                frmAltaArticulos modificar = new frmAltaArticulos(seleccionado);
+                modificar.ShowDialog();
+                cargar();  
+            }
         }
-
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
             Articulo seleccionado = new Articulo();
-            try
+
+            if(dgvArticulos.CurrentRow != null)
             {
-                DialogResult respuesta = MessageBox.Show("¿Esta seguro de que quiere eliminar este artículo?", "Eliminando", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if(respuesta == DialogResult.Yes) 
+                try
                 {
-                    seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-                    negocio.Elimnar(seleccionado.id);
-                    MessageBox.Show("Articulo eliminado exitosamente!");
-                    cargar();
+                    DialogResult respuesta = MessageBox.Show("¿Esta seguro de que quiere eliminar este artículo?", "Eliminando", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if(respuesta == DialogResult.Yes) 
+                    {
+                        seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                        negocio.Elimnar(seleccionado.id);
+                        MessageBox.Show("Articulo eliminado exitosamente!");
+                        cargar();
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.ToString());
                 }
             }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.ToString());
-            }
-            
         }
-
         private bool validarFiltro() 
         {
             if(cboCampo.SelectedIndex < 0) 
@@ -119,14 +123,14 @@ namespace Presentacion
                 MessageBox.Show("Por favor, seleccione el criterio para filtrar.");
                 return true;
             }
-            if(cboCampo.SelectedIndex.ToString() == "Precio") 
+            if(cboCampo.SelectedItem.ToString() == "Precio") 
             {
                 if (string.IsNullOrEmpty(txtFiltroAvanzado.Text)) 
                 {
                     MessageBox.Show("Complete el campo para continuar");
                     return true;
                 }
-                if(!(soloNumeros(txtFiltroAvanzado.Text)))
+                if (!(soloNumeros(txtFiltroAvanzado.Text)))
                 {
                     MessageBox.Show("Ingrese solo números, por favor");
                     return true;
@@ -134,7 +138,6 @@ namespace Presentacion
             }
             return false;
         }
-
         private bool soloNumeros(string cadena) 
         {
             foreach(char caracter in cadena) 
@@ -143,10 +146,11 @@ namespace Presentacion
                     return false;
             }       
             return true;    
-        }
+        }        
         private void btnFiltro_Click(object sender, EventArgs e)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
+            
             try
             {
                 if (validarFiltro())
@@ -156,15 +160,12 @@ namespace Presentacion
                 string criterio = cboCriterio.SelectedItem.ToString();
                 string filtro = txtFiltroAvanzado.Text;
                 dgvArticulos.DataSource = negocio.filtrar(campo, criterio, filtro);
-
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.ToString());
-            }
-        }
-        
+            }            
+        }        
         private void txtFiltro_TextChanged(object sender, EventArgs e)
         {
             List<Articulo> listaFiltrada;
@@ -172,7 +173,7 @@ namespace Presentacion
 
             if (filtro.Length >= 3)
             {
-                listaFiltrada = listaArticulo.FindAll(x => x.nombre.ToUpper().Contains(filtro.ToUpper()) || x.marca.Descripcion.ToUpper().Contains(filtro.ToUpper()));
+                listaFiltrada = listaArticulo.FindAll(x => x.nombre.ToUpper().Contains(filtro.ToUpper()) || x.marca.Descripcion.ToUpper().Contains(filtro.ToUpper()));                
             }
             else
             {
@@ -181,6 +182,18 @@ namespace Presentacion
 
             dgvArticulos.DataSource = null;
             dgvArticulos.DataSource = listaFiltrada;
+
+            if (dgvArticulos.CurrentRow == null)
+            {
+                btnModificar.Enabled = false;
+                btnEliminar.Enabled = false;
+            }
+            else
+            {
+                btnModificar.Enabled = true;
+                btnEliminar.Enabled = true;
+            }
+
             ocultarColumnas();
         }
 
