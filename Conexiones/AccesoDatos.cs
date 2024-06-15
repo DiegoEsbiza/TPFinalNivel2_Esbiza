@@ -23,11 +23,13 @@ namespace Conexiones
             conexion = new SqlConnection("server=.\\SQLEXPRESS; database=CATALOGO_DB; integrated security=true");
             comando = new SqlCommand();
         }
+
         public void setearConsulta(string consulta) 
         {
             comando.CommandType = System.Data.CommandType.Text;
             comando.CommandText = consulta;
         }
+
         public void ejecutarLectura() 
         {
             comando.Connection = conexion;
@@ -41,6 +43,7 @@ namespace Conexiones
                 throw ex;
             }            
         }
+
         public void ejecutarAccion() 
         {
             comando.Connection = conexion;
@@ -55,12 +58,14 @@ namespace Conexiones
                 throw ex;
             }
         }
+
         public void cerrarConexion() 
         {
             if (lector != null)
                 lector.Close();
             conexion.Close();
         }
+
         public void setearParametro(string nombre, object valor)
         {
             comando.Parameters.AddWithValue(nombre, valor);

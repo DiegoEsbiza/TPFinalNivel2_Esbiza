@@ -10,8 +10,6 @@ using System.Windows.Forms;
 using Negocio;
 using Dominio;
 
-
-
 namespace Presentacion
 {
     public partial class frmArticulos : Form
@@ -19,36 +17,41 @@ namespace Presentacion
         private List<Articulo> listaArticulo;
         public frmArticulos()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
+
         private void frmArticulos_Load(object sender, EventArgs e)
         {
             cargar();
             cboCampo.Items.Add("Nombre");
             cboCampo.Items.Add("Marca");
             cboCampo.Items.Add("Categoria");
-            cboCampo.Items.Add("Precio");
+            cboCampo.Items.Add("Precio");           
         }
+
         private void cargar() 
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
             try
             {
                 listaArticulo = negocio.listar();
-                dgvArticulos.DataSource = listaArticulo;
+                dgvArticulos.DataSource = listaArticulo;               
                 ocultarColumnas();
                 cargarImagen(listaArticulo[0].imagen);
+                gboBusquedaAvanzada.Visible = false;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
         }
+
         private void ocultarColumnas() 
         {
             dgvArticulos.Columns["Id"].Visible = false;
             dgvArticulos.Columns["Imagen"].Visible = false;
         }
+
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
         {
             if(dgvArticulos.CurrentRow != null) 
@@ -57,7 +60,8 @@ namespace Presentacion
                 cargarImagen(seleccionado.imagen); 
             }
         }
-        private void cargarImagen(string imagen) 
+
+        private void cargarImagen(string imagen)
         {
             try
             {
@@ -68,6 +72,7 @@ namespace Presentacion
                 pbxImagen.Load("https://img.freepik.com/premium-vector/photo-icon-picture-icon-image-sign-symbol-vector-illustration_64749-4409.jpg");
             }
         }
+
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             frmAltaArticulos alta = new frmAltaArticulos();
@@ -86,6 +91,7 @@ namespace Presentacion
                 cargar();  
             }
         }
+
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
@@ -111,6 +117,7 @@ namespace Presentacion
                 }
             }
         }
+
         private bool validarFiltro() 
         {
             if(cboCampo.SelectedIndex < 0) 
@@ -136,8 +143,10 @@ namespace Presentacion
                     return true;
                 }
             }
+
             return false;
         }
+
         private bool soloNumeros(string cadena) 
         {
             foreach(char caracter in cadena) 
@@ -147,6 +156,7 @@ namespace Presentacion
             }       
             return true;    
         }        
+
         private void btnFiltro_Click(object sender, EventArgs e)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
@@ -166,6 +176,7 @@ namespace Presentacion
                 MessageBox.Show(ex.ToString());
             }            
         }        
+
         private void txtFiltro_TextChanged(object sender, EventArgs e)
         {
             List<Articulo> listaFiltrada;
@@ -176,13 +187,19 @@ namespace Presentacion
                 listaFiltrada = listaArticulo.FindAll(x => x.nombre.ToUpper().Contains(filtro.ToUpper()) || x.marca.Descripcion.ToUpper().Contains(filtro.ToUpper()));                
             }
             else
-            {
-                listaFiltrada = listaArticulo;
+            {                
+                listaFiltrada = listaArticulo;                
             }
 
             dgvArticulos.DataSource = null;
             dgvArticulos.DataSource = listaFiltrada;
+            
+            habilitarBotones();
+            ocultarColumnas();
+        }
 
+        private void habilitarBotones()
+        {
             if (dgvArticulos.CurrentRow == null)
             {
                 btnModificar.Enabled = false;
@@ -193,8 +210,6 @@ namespace Presentacion
                 btnModificar.Enabled = true;
                 btnEliminar.Enabled = true;
             }
-
-            ocultarColumnas();
         }
 
         private void cboCampo_SelectedIndexChanged(object sender, EventArgs e)
@@ -214,6 +229,36 @@ namespace Presentacion
                 cboCriterio.Items.Add("Comienza con");
                 cboCriterio.Items.Add("Termina con");
                 cboCriterio.Items.Add("Contiene");
+            }
+        }
+
+        private void txtFiltro_MouseClick(object sender, EventArgs e)
+        {
+            txtFiltro.Text = "";            
+        }
+
+        private void lnkBusquedaAvanzada_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {           
+            if (gboBusquedaAvanzada.Visible == false)
+                gboBusquedaAvanzada.Visible = true;
+            else
+                gboBusquedaAvanzada.Visible = false;
+        }
+
+        private void txtFiltroAvanzado_MouseClick(object sender, MouseEventArgs e)
+        {
+            txtFiltroAvanzado.Text = "";
+        }
+
+        private void btnDetalles_Click(object sender, EventArgs e)
+        {
+            if(dgvArticulos.CurrentRow != null)
+            {
+                Articulo seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+
+                frmVerDetalles verDetalles = new frmVerDetalles(seleccionado);
+                verDetalles.ShowDialog();
+                cargar();
             }
         }
     }

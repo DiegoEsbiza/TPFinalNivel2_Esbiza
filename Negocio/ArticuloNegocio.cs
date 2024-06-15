@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Conexiones;
 using Dominio;
-using Conexiones;
-using System.Security.Cryptography.X509Certificates;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Negocio
 {
     public class ArticuloNegocio
     {
-        public List<Articulo> listar() 
+        public List<Articulo> listar()
         {
             List<Articulo> lista = new List<Articulo>();
             AccesoDatos datos = new AccesoDatos();
@@ -21,7 +18,7 @@ namespace Negocio
                 datos.setearConsulta("SELECT A.Id, Codigo, Nombre, A.Descripcion, A.IdMarca, A.IdCategoria, imagenUrl, M.Descripcion Marca, C.Descripcion Categoria, Precio, M.Id, C.Id from MARCAS M, ARTICULOS A, CATEGORIAS C where M.Id = A.IdMarca and C.Id = A.IdCategoria");
                 datos.ejecutarLectura();
 
-                while (datos.Lector.Read()) 
+                while (datos.Lector.Read())
                 {
                     Articulo aux = new Articulo();
                     aux.id = (int)datos.Lector["Id"];
@@ -30,7 +27,7 @@ namespace Negocio
                     aux.descripcion = (string)datos.Lector["Descripcion"];
 
                     if (!(datos.Lector["ImagenUrl"] is DBNull))
-                        aux.imagen = (string)datos.Lector["ImagenUrl"];             
+                        aux.imagen = (string)datos.Lector["ImagenUrl"];
 
                     aux.marca = new Marca();
                     aux.marca.Id = (int)datos.Lector["IdMarca"];
@@ -55,10 +52,10 @@ namespace Negocio
         }
         public void Agregar(Articulo nuevo)
         {
-            AccesoDatos datos = new AccesoDatos();            
+            AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("INSERT into ARTICULOS (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, imagenUrl, Precio) values (@codigo, @nombre, @descripcion, @idMarca, @idCategoria, @imagenUrl, @precio)");           
+                datos.setearConsulta("INSERT into ARTICULOS (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, imagenUrl, Precio) values (@codigo, @nombre, @descripcion, @idMarca, @idCategoria, @imagenUrl, @precio)");
                 datos.setearParametro("@codigo", nuevo.codigo);
                 datos.setearParametro("@nombre", nuevo.nombre);
                 datos.setearParametro("@descripcion", nuevo.descripcion);
@@ -66,7 +63,7 @@ namespace Negocio
                 datos.setearParametro("@idCategoria", nuevo.categoria.Id);
                 datos.setearParametro("@imagenUrl", nuevo.imagen);
                 datos.setearParametro("@precio", nuevo.precio);
-                datos.ejecutarAccion();
+                datos.ejecutarLectura();
             }
             catch (Exception ex)
             {
@@ -77,7 +74,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public void Modificar (Articulo modificar)
+        public void Modificar(Articulo modificar)
         {
             AccesoDatos datos = new AccesoDatos();
 
@@ -97,16 +94,14 @@ namespace Negocio
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
-            finally 
-            { 
+            finally
+            {
                 datos.cerrarConexion();
             }
-
         }
-        public void Elimnar(int id)     
+        public void Elimnar(int id)
         {
             try
             {
@@ -117,11 +112,9 @@ namespace Negocio
             }
             catch (Exception ex)
             {
-
                 throw ex;
-            }        
-        }
-
+            }
+        }      
         public List<Articulo> filtrar(string campo, string criterio, string filtro)
         {
             List<Articulo> lista = new List<Articulo>();
@@ -129,7 +122,7 @@ namespace Negocio
             try
             {
                 string consulta = "SELECT A.Id, Codigo, Nombre, A.Descripcion, A.IdMarca, A.IdCategoria, imagenUrl, M.Descripcion Marca, C.Descripcion Categoria, Precio, M.Id, C.Id from MARCAS M, ARTICULOS A, CATEGORIAS C where M.Id = A.IdMarca and C.Id = A.IdCategoria and ";
-                switch(campo)
+                switch (campo)
                 {
                     case "Nombre":
                         switch (criterio)
@@ -149,7 +142,7 @@ namespace Negocio
                         break;
 
                     case "Marca":
-                        switch (criterio) 
+                        switch (criterio)
                         {
                             case "Comienza con":
                                 consulta += "M.Descripcion like '" + filtro + "%' ";
@@ -161,7 +154,7 @@ namespace Negocio
 
                             default:
                                 consulta += "M.Descripcion like '%" + filtro + "%' ";
-                                break;                        
+                                break;
                         }
                         break;
 
@@ -232,5 +225,7 @@ namespace Negocio
                 throw ex;
             }
         }
+
+
     }
 }
