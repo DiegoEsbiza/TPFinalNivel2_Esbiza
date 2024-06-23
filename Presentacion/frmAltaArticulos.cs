@@ -21,13 +21,15 @@ namespace Presentacion
         public frmAltaArticulos()
         {
             InitializeComponent();
+            lblEncabezado.Text = "Agregar artículo";
             Text = "Agregar artículo";
         }
         public frmAltaArticulos(Articulo articulo)
         {
             InitializeComponent();
             this.articulo = articulo;
-            Text = "Modificar artículo";
+            lblEncabezado.Text = "Modificar artículo";
+            lblEncabezado.Text = "Modificar artículo";
         }
         private void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -101,12 +103,11 @@ namespace Presentacion
                 MessageBox.Show(ex.ToString());
             }
         }
-
         private void txtUrlImagen_Leave(object sender, EventArgs e)
         {
             cargarImagen(txtUrlImagen.Text);
         }
-        private void cargarImagen(String imagen)
+        private void cargarImagen(string imagen)
         {
             try
             {

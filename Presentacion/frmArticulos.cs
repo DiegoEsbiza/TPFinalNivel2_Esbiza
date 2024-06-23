@@ -180,7 +180,7 @@ namespace Presentacion
         private void txtFiltro_TextChanged(object sender, EventArgs e)
         {
             List<Articulo> listaFiltrada;
-            string filtro = txtFiltro.Text;
+            string filtro = txtFiltro.Text;            
 
             if (filtro.Length >= 3)
             {
@@ -232,11 +232,6 @@ namespace Presentacion
             }
         }
 
-        private void txtFiltro_MouseClick(object sender, EventArgs e)
-        {
-            txtFiltro.Text = "";            
-        }
-
         private void lnkBusquedaAvanzada_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {           
             if (gboBusquedaAvanzada.Visible == false)
@@ -247,7 +242,11 @@ namespace Presentacion
 
         private void txtFiltroAvanzado_MouseClick(object sender, MouseEventArgs e)
         {
-            txtFiltroAvanzado.Text = "";
+            if (txtFiltroAvanzado.Text == "Busqueda avanzada" || txtFiltroAvanzado.Text == "")
+            {
+                txtFiltroAvanzado.Text = "";
+                habilitarBotones();
+            }
         }
 
         private void btnDetalles_Click(object sender, EventArgs e)
@@ -260,6 +259,43 @@ namespace Presentacion
                 verDetalles.ShowDialog();
                 cargar();
             }
+        }
+
+        private void txtFiltro_MouseClick(object sender, MouseEventArgs e)
+        {
+            if(txtFiltro.Text == "Busqueda por nombre o marca" || txtFiltro.Text == "")
+            {
+                txtFiltro.Text = "";
+                cargar();
+            }
+        }
+
+        private void txtFiltro_Leave(object sender, EventArgs e)
+        {
+            string filtro = txtFiltro.Text;
+            if (filtro == "")
+            {
+                txtFiltro.Text = "Busqueda por nombre o marca";
+                cargar();
+                habilitarBotones();
+            }
+        }
+
+        private void txtFiltroAvanzado_Leave(object sender, EventArgs e)
+        {
+            string filtroAvanzado = txtFiltroAvanzado.Text;
+            if (filtroAvanzado == "")
+            {
+                txtFiltroAvanzado.Text = "Busqueda avanzada";
+            }
+            
+            cargar();
+            habilitarBotones();
+        }
+
+        private void gboBusquedaAvanzada_Leave(object sender, EventArgs e)
+        {
+            gboBusquedaAvanzada.Visible = true;
         }
     }
 }
