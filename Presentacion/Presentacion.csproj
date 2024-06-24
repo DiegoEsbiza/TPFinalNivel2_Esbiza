@@ -85,6 +85,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -108,6 +109,42 @@
       <Project>{f0456372-fe1f-4553-abad-d72b94442d66}</Project>
       <Name>Negocio</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Image1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search_magnifier_icon_145939.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filter_filters_funnel_list_navigation_sort_sorting_icon_123212.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settingsfilter_121137.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filter_outline_icon_139566.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lupa.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Agregar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new_file256_25213.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new_file256_252131.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Agregar1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new_file256_252132.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search-file_40436.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

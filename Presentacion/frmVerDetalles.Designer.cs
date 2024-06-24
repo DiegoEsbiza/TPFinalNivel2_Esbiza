@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmVerDetalles));
             this.pbxImagenDetalles = new System.Windows.Forms.PictureBox();
             this.lblCodigoDetalle = new System.Windows.Forms.Label();
             this.lblNombreDetalle = new System.Windows.Forms.Label();
@@ -173,8 +174,11 @@
             this.Controls.Add(this.lblNombreDetalle);
             this.Controls.Add(this.lblCodigoDetalle);
             this.Controls.Add(this.pbxImagenDetalles);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(537, 323);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(537, 323);
             this.Name = "frmVerDetalles";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Detalles";

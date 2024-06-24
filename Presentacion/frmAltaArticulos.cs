@@ -28,7 +28,7 @@ namespace Presentacion
         {
             InitializeComponent();
             this.articulo = articulo;
-            lblEncabezado.Text = "Modificar artículo";
+            Text = "Modificar artículo";
             lblEncabezado.Text = "Modificar artículo";
         }
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -54,14 +54,33 @@ namespace Presentacion
                 if (articulo.id != 0) 
                 { 
                     negocio.Modificar(articulo);
-                    MessageBox.Show("Artículo modificado exitosamente!");
+                    MessageBox.Show("¡Artículo modificado exitosamente!");
                     Close();
                 }
                 else
                 {
                     negocio.Agregar(articulo);
-                    MessageBox.Show("Artículo agregado exitosamente!");
-                    Close();
+                    MessageBox.Show("¡Artículo agregado exitosamente!");
+
+                    DialogResult respuesta = MessageBox.Show("¿Desea agregar un nuevo artículo?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if(respuesta == DialogResult.Yes)
+                    {
+                        MarcaNegocio marcaNegocio = new MarcaNegocio();
+                        CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+
+                        txtCodigo.Text = "";
+                        txtNombre.Text = "";
+                        txtDescripcion.Text = "";
+                        txtPrecio.Text = "";
+                        cboMarca.DataSource = marcaNegocio.listar();
+                        cboCategoria.DataSource = categoriaNegocio.listar();
+                        txtUrlImagen.Text = "";
+                        pbxImagenAlta.Load("https://img.freepik.com/premium-vector/photo-icon-picture-icon-image-sign-symbol-vector-illustration_64749-4409.jpg");
+                    }
+                    else
+                    {
+                        Close();
+                    }
                 }
 
                 if (archivo != null && !(txtUrlImagen.Text.ToUpper().Contains("HTTP")))

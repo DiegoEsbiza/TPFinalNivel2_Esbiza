@@ -17,7 +17,8 @@ namespace Presentacion
         private List<Articulo> listaArticulo;
         public frmArticulos()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            gboBusquedaAvanzada.Visible = false;
         }
 
         private void frmArticulos_Load(object sender, EventArgs e)
@@ -35,10 +36,9 @@ namespace Presentacion
             try
             {
                 listaArticulo = negocio.listar();
-                dgvArticulos.DataSource = listaArticulo;               
+                dgvArticulos.DataSource = listaArticulo;
                 ocultarColumnas();
                 cargarImagen(listaArticulo[0].imagen);
-                gboBusquedaAvanzada.Visible = false;
             }
             catch (Exception ex)
             {
@@ -170,6 +170,9 @@ namespace Presentacion
                 string criterio = cboCriterio.SelectedItem.ToString();
                 string filtro = txtFiltroAvanzado.Text;
                 dgvArticulos.DataSource = negocio.filtrar(campo, criterio, filtro);
+
+                if (txtFiltroAvanzado.Text == "Busqueda avanzada")
+                    cargar();
             }
             catch (Exception ex)
             {
@@ -232,14 +235,6 @@ namespace Presentacion
             }
         }
 
-        private void lnkBusquedaAvanzada_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {           
-            if (gboBusquedaAvanzada.Visible == false)
-                gboBusquedaAvanzada.Visible = true;
-            else
-                gboBusquedaAvanzada.Visible = false;
-        }
-
         private void txtFiltroAvanzado_MouseClick(object sender, MouseEventArgs e)
         {
             if (txtFiltroAvanzado.Text == "Busqueda avanzada" || txtFiltroAvanzado.Text == "")
@@ -272,8 +267,7 @@ namespace Presentacion
 
         private void txtFiltro_Leave(object sender, EventArgs e)
         {
-            string filtro = txtFiltro.Text;
-            if (filtro == "")
+            if (txtFiltro.Text.Length < 3)
             {
                 txtFiltro.Text = "Busqueda por nombre o marca";
                 cargar();
@@ -296,6 +290,20 @@ namespace Presentacion
         private void gboBusquedaAvanzada_Leave(object sender, EventArgs e)
         {
             gboBusquedaAvanzada.Visible = true;
+        }
+
+        private void pbxFiltro_Click(object sender, EventArgs e)
+        {
+            if (gboBusquedaAvanzada.Visible == false)
+            {
+                gboBusquedaAvanzada.Visible = true;
+                pbxFiltro.BorderStyle = BorderStyle.Fixed3D;
+            }
+            else
+            {
+                gboBusquedaAvanzada.Visible = false;
+                pbxFiltro.BorderStyle = BorderStyle.FixedSingle;
+            }
         }
     }
 }
