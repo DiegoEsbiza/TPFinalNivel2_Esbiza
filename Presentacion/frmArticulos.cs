@@ -246,14 +246,7 @@ namespace Presentacion
 
         private void btnDetalles_Click(object sender, EventArgs e)
         {
-            if(dgvArticulos.CurrentRow != null)
-            {
-                Articulo seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-
-                frmVerDetalles verDetalles = new frmVerDetalles(seleccionado);
-                verDetalles.ShowDialog();
-                cargar();
-            }
+            CargarDetalles();
         }
 
         private void txtFiltro_MouseClick(object sender, MouseEventArgs e)
@@ -303,6 +296,22 @@ namespace Presentacion
             {
                 gboBusquedaAvanzada.Visible = false;
                 pbxFiltro.BorderStyle = BorderStyle.FixedSingle;
+            }
+        }
+
+        private void dgvArticulos_DoubleClick(object sender, EventArgs e)
+        {
+            CargarDetalles();
+        }
+
+        private void CargarDetalles()
+        {
+            if (dgvArticulos.CurrentRow != null)
+            {
+                Articulo seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+
+                frmVerDetalles verDetalles = new frmVerDetalles(seleccionado);
+                verDetalles.ShowDialog();
             }
         }
     }

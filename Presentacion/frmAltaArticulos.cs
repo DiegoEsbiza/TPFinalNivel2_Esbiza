@@ -21,8 +21,12 @@ namespace Presentacion
         public frmAltaArticulos()
         {
             InitializeComponent();
-            lblEncabezado.Text = "Agregar artículo";
             Text = "Agregar artículo";
+            lblEncabezado.Text = "Agregar artículo";            
+            lblCodigoRequerido.Visible = false;
+            lblNombreRequerido.Visible = false;
+            lblPrecioRequerido.Visible = false;
+            pbxImagenAlta.Load("https://img.freepik.com/premium-vector/photo-icon-picture-icon-image-sign-symbol-vector-illustration_64749-4409.jpg");
         }
         public frmAltaArticulos(Articulo articulo)
         {
@@ -30,6 +34,11 @@ namespace Presentacion
             this.articulo = articulo;
             Text = "Modificar artículo";
             lblEncabezado.Text = "Modificar artículo";
+            lblSubtitulo.Text = "Editar información";
+            lblCodigoRequerido.Visible = false;
+            lblNombreRequerido.Visible = false;
+            lblPrecioRequerido.Visible = false;
+
         }
         private void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -40,48 +49,75 @@ namespace Presentacion
             ArticuloNegocio negocio = new ArticuloNegocio();
             try
             {
-                if (articulo == null)
-                    articulo = new Articulo();
+                if(txtCodigo.Text == "" || txtNombre.Text == "" || txtPrecio.Text == "")
+                {
+                    if (txtCodigo.Text != "")
+                        lblCodigoRequerido.Visible = false;
+                    else
+                        lblCodigoRequerido.Visible = true;
 
-                articulo.codigo = txtCodigo.Text;
-                articulo.nombre = txtNombre.Text;
-                articulo.descripcion = txtDescripcion.Text;
-                articulo.marca = (Marca)cboMarca.SelectedItem;
-                articulo.categoria = (Categoria)cboCategoria.SelectedItem;
-                articulo.imagen = txtUrlImagen.Text;
-                articulo.precio = decimal.Parse(txtPrecio.Text);
+                    if (txtNombre.Text != "")
+                        lblNombreRequerido.Visible = false;
+                    else
+                        lblNombreRequerido.Visible = true;
 
-                if (articulo.id != 0) 
-                { 
-                    negocio.Modificar(articulo);
-                    MessageBox.Show("¡Artículo modificado exitosamente!");
-                    Close();
+                    if (txtPrecio.Text != "")
+                        lblPrecioRequerido.Visible = false;
+                    else
+                        lblPrecioRequerido.Visible = true;
                 }
                 else
                 {
-                    negocio.Agregar(articulo);
-                    MessageBox.Show("¡Artículo agregado exitosamente!");
+                    if (articulo == null)
+                        articulo = new Articulo();
 
-                    DialogResult respuesta = MessageBox.Show("¿Desea agregar un nuevo artículo?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if(respuesta == DialogResult.Yes)
+                    articulo.codigo = txtCodigo.Text;
+                    articulo.nombre = txtNombre.Text;
+                    articulo.descripcion = txtDescripcion.Text;
+                    articulo.marca = (Marca)cboMarca.SelectedItem;
+                    articulo.categoria = (Categoria)cboCategoria.SelectedItem;
+                    articulo.imagen = txtUrlImagen.Text;
+                    articulo.precio = decimal.Parse(txtPrecio.Text);
+
+                    if (articulo.id != 0)
                     {
-                        MarcaNegocio marcaNegocio = new MarcaNegocio();
-                        CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+                        DialogResult respuesta = MessageBox.Show("¿Está seguro de que desea modificar la información?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (respuesta == DialogResult.Yes)
+                            negocio.Modificar(articulo);
 
-                        txtCodigo.Text = "";
-                        txtNombre.Text = "";
-                        txtDescripcion.Text = "";
-                        txtPrecio.Text = "";
-                        cboMarca.DataSource = marcaNegocio.listar();
-                        cboCategoria.DataSource = categoriaNegocio.listar();
-                        txtUrlImagen.Text = "";
-                        pbxImagenAlta.Load("https://img.freepik.com/premium-vector/photo-icon-picture-icon-image-sign-symbol-vector-illustration_64749-4409.jpg");
+                        MessageBox.Show("¡Artículo modificado exitosamente!");
+                        Close();
                     }
                     else
                     {
-                        Close();
+                        negocio.Agregar(articulo);
+                        MessageBox.Show("¡Artículo agregado exitosamente!");
+
+                        DialogResult respuesta = MessageBox.Show("¿Desea agregar un nuevo artículo?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (respuesta == DialogResult.Yes)
+                        {
+                            MarcaNegocio marcaNegocio = new MarcaNegocio();
+                            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+
+                            txtCodigo.Text = "";
+                            txtNombre.Text = "";
+                            txtDescripcion.Text = "";
+                            txtPrecio.Text = "";
+                            cboMarca.DataSource = marcaNegocio.listar();
+                            cboCategoria.DataSource = categoriaNegocio.listar();
+                            txtUrlImagen.Text = "";
+                            pbxImagenAlta.Load("https://img.freepik.com/premium-vector/photo-icon-picture-icon-image-sign-symbol-vector-illustration_64749-4409.jpg");
+                            lblCodigoRequerido.Visible = false;
+                            lblNombreRequerido.Visible = false;
+                            lblPrecioRequerido.Visible = false;
+                        }
+                        else
+                        {
+                            Close();
+                        }
                     }
                 }
+
 
                 if (archivo != null && !(txtUrlImagen.Text.ToUpper().Contains("HTTP")))
                     File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
@@ -150,6 +186,24 @@ namespace Presentacion
                 //File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
             }
 
+        }
+
+        private void txtCodigo_Leave(object sender, EventArgs e)
+        {
+            if (txtCodigo.Text != "")
+                lblCodigoRequerido.Visible = false;
+        }
+
+        private void txtNombre_Leave(object sender, EventArgs e)
+        {
+            if (txtNombre.Text != "")
+                lblNombreRequerido.Visible = false;
+        }
+
+        private void txtPrecio_Leave(object sender, EventArgs e)
+        {
+            if (txtPrecio.Text != "")
+                lblPrecioRequerido.Visible = false;
         }
     }
 }

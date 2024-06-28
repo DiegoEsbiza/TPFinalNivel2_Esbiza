@@ -32,7 +32,6 @@
             this.pbxImagenDetalles = new System.Windows.Forms.PictureBox();
             this.lblCodigoDetalle = new System.Windows.Forms.Label();
             this.lblNombreDetalle = new System.Windows.Forms.Label();
-            this.lblDescripcionDetalle = new System.Windows.Forms.Label();
             this.lblPrecio = new System.Windows.Forms.Label();
             this.lblMarcaDetalle = new System.Windows.Forms.Label();
             this.lblCategoriaDetalle = new System.Windows.Forms.Label();
@@ -42,6 +41,9 @@
             this.lblPrecioInformacion = new System.Windows.Forms.Label();
             this.lblMarcaInformacion = new System.Windows.Forms.Label();
             this.lblCategoriaInformacion = new System.Windows.Forms.Label();
+            this.lblTitulo = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnCerrar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImagenDetalles)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,7 +59,7 @@
             // lblCodigoDetalle
             // 
             this.lblCodigoDetalle.AutoSize = true;
-            this.lblCodigoDetalle.Location = new System.Drawing.Point(35, 57);
+            this.lblCodigoDetalle.Location = new System.Drawing.Point(35, 83);
             this.lblCodigoDetalle.Name = "lblCodigoDetalle";
             this.lblCodigoDetalle.Size = new System.Drawing.Size(43, 13);
             this.lblCodigoDetalle.TabIndex = 18;
@@ -66,20 +68,11 @@
             // lblNombreDetalle
             // 
             this.lblNombreDetalle.AutoSize = true;
-            this.lblNombreDetalle.Location = new System.Drawing.Point(31, 83);
+            this.lblNombreDetalle.Location = new System.Drawing.Point(31, 109);
             this.lblNombreDetalle.Name = "lblNombreDetalle";
             this.lblNombreDetalle.Size = new System.Drawing.Size(47, 13);
             this.lblNombreDetalle.TabIndex = 17;
             this.lblNombreDetalle.Text = "Nombre:";
-            // 
-            // lblDescripcionDetalle
-            // 
-            this.lblDescripcionDetalle.AutoSize = true;
-            this.lblDescripcionDetalle.Location = new System.Drawing.Point(12, 109);
-            this.lblDescripcionDetalle.Name = "lblDescripcionDetalle";
-            this.lblDescripcionDetalle.Size = new System.Drawing.Size(66, 13);
-            this.lblDescripcionDetalle.TabIndex = 16;
-            this.lblDescripcionDetalle.Text = "Descripción:";
             // 
             // lblPrecio
             // 
@@ -102,7 +95,7 @@
             // lblCategoriaDetalle
             // 
             this.lblCategoriaDetalle.AutoSize = true;
-            this.lblCategoriaDetalle.Location = new System.Drawing.Point(23, 188);
+            this.lblCategoriaDetalle.Location = new System.Drawing.Point(23, 187);
             this.lblCategoriaDetalle.Name = "lblCategoriaDetalle";
             this.lblCategoriaDetalle.Size = new System.Drawing.Size(55, 13);
             this.lblCategoriaDetalle.TabIndex = 13;
@@ -111,7 +104,7 @@
             // lblCodigoInformacion
             // 
             this.lblCodigoInformacion.AutoSize = true;
-            this.lblCodigoInformacion.Location = new System.Drawing.Point(84, 57);
+            this.lblCodigoInformacion.Location = new System.Drawing.Point(84, 83);
             this.lblCodigoInformacion.Name = "lblCodigoInformacion";
             this.lblCodigoInformacion.Size = new System.Drawing.Size(0, 13);
             this.lblCodigoInformacion.TabIndex = 19;
@@ -119,7 +112,7 @@
             // lblNombreINformacion
             // 
             this.lblNombreINformacion.AutoSize = true;
-            this.lblNombreINformacion.Location = new System.Drawing.Point(84, 83);
+            this.lblNombreINformacion.Location = new System.Drawing.Point(84, 109);
             this.lblNombreINformacion.Name = "lblNombreINformacion";
             this.lblNombreINformacion.Size = new System.Drawing.Size(0, 13);
             this.lblNombreINformacion.TabIndex = 20;
@@ -127,7 +120,7 @@
             // lblDescripcionInformacion
             // 
             this.lblDescripcionInformacion.AutoSize = true;
-            this.lblDescripcionInformacion.Location = new System.Drawing.Point(84, 109);
+            this.lblDescripcionInformacion.Location = new System.Drawing.Point(84, 213);
             this.lblDescripcionInformacion.Name = "lblDescripcionInformacion";
             this.lblDescripcionInformacion.Size = new System.Drawing.Size(0, 13);
             this.lblDescripcionInformacion.TabIndex = 21;
@@ -151,16 +144,48 @@
             // lblCategoriaInformacion
             // 
             this.lblCategoriaInformacion.AutoSize = true;
-            this.lblCategoriaInformacion.Location = new System.Drawing.Point(84, 188);
+            this.lblCategoriaInformacion.Location = new System.Drawing.Point(84, 187);
             this.lblCategoriaInformacion.Name = "lblCategoriaInformacion";
             this.lblCategoriaInformacion.Size = new System.Drawing.Size(0, 13);
             this.lblCategoriaInformacion.TabIndex = 24;
+            // 
+            // lblTitulo
+            // 
+            this.lblTitulo.AutoSize = true;
+            this.lblTitulo.Font = new System.Drawing.Font("Candara", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblTitulo.Location = new System.Drawing.Point(12, 12);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(239, 33);
+            this.lblTitulo.TabIndex = 25;
+            this.lblTitulo.Text = "Detalles del artículo";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 213);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(66, 13);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "Descripción:";
+            // 
+            // btnCerrar
+            // 
+            this.btnCerrar.Location = new System.Drawing.Point(223, 287);
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(75, 23);
+            this.btnCerrar.TabIndex = 26;
+            this.btnCerrar.Text = "Cerrar";
+            this.btnCerrar.UseVisualStyleBackColor = true;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
             // frmVerDetalles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(521, 284);
+            this.ClientSize = new System.Drawing.Size(521, 322);
+            this.Controls.Add(this.btnCerrar);
+            this.Controls.Add(this.lblTitulo);
             this.Controls.Add(this.lblCategoriaInformacion);
             this.Controls.Add(this.lblMarcaInformacion);
             this.Controls.Add(this.lblPrecioInformacion);
@@ -170,15 +195,15 @@
             this.Controls.Add(this.lblCategoriaDetalle);
             this.Controls.Add(this.lblMarcaDetalle);
             this.Controls.Add(this.lblPrecio);
-            this.Controls.Add(this.lblDescripcionDetalle);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblNombreDetalle);
             this.Controls.Add(this.lblCodigoDetalle);
             this.Controls.Add(this.pbxImagenDetalles);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(537, 323);
+            this.MaximumSize = new System.Drawing.Size(537, 361);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(537, 323);
+            this.MinimumSize = new System.Drawing.Size(537, 361);
             this.Name = "frmVerDetalles";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Detalles";
@@ -194,7 +219,6 @@
         private System.Windows.Forms.PictureBox pbxImagenDetalles;
         private System.Windows.Forms.Label lblCodigoDetalle;
         private System.Windows.Forms.Label lblNombreDetalle;
-        private System.Windows.Forms.Label lblDescripcionDetalle;
         private System.Windows.Forms.Label lblPrecio;
         private System.Windows.Forms.Label lblMarcaDetalle;
         private System.Windows.Forms.Label lblCategoriaDetalle;
@@ -204,5 +228,8 @@
         private System.Windows.Forms.Label lblPrecioInformacion;
         private System.Windows.Forms.Label lblMarcaInformacion;
         private System.Windows.Forms.Label lblCategoriaInformacion;
+        private System.Windows.Forms.Label lblTitulo;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnCerrar;
     }
 }
