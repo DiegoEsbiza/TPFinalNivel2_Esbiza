@@ -205,5 +205,19 @@ namespace Presentacion
             if (txtPrecio.Text != "")
                 lblPrecioRequerido.Visible = false;
         }
+
+        private void txtPrecio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(char.IsNumber(e.KeyChar)) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+                lblPrecioRequerido.Text = "Ingrese solo números, por favor";
+                lblPrecioRequerido.Visible = true;
+            }
+            else
+            {
+                lblPrecioRequerido.Visible = false;
+            }
+        }
     }
 }

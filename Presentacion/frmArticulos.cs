@@ -50,6 +50,9 @@ namespace Presentacion
         {
             dgvArticulos.Columns["Id"].Visible = false;
             dgvArticulos.Columns["Imagen"].Visible = false;
+            dgvArticulos.Columns["codigo"].Visible = false;
+            dgvArticulos.Columns["descripcion"].Visible = false;
+
         }
 
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
